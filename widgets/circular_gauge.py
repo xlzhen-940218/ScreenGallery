@@ -81,7 +81,7 @@ class CircularGauge(QWidget):
         
         # Value Text
         font_value = self.font()
-        font_value.setPointSize(max(10, int(size / 4.5)))
+        font_value.setPointSize(max(8, int(size / 4.5) - 2))
         font_value.setBold(True)
         painter.setFont(font_value)
         value_rect = QRectF(rect.x(), rect.y() + size * 0.1, rect.width(), rect.height() * 0.6)
@@ -89,7 +89,7 @@ class CircularGauge(QWidget):
 
         # Title Text
         font_title = self.font()
-        font_title.setPointSize(max(8, int(size / 8)))
+        font_title.setPointSize(max(6, int(size / 8) - 2))
         font_title.setBold(False)
         painter.setFont(font_title)
         title_rect = QRectF(rect.x(), rect.y() + size * 0.55, rect.width(), rect.height() * 0.4)

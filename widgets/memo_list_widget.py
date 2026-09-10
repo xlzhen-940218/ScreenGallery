@@ -1,5 +1,5 @@
 from PyQt6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QLabel, QCheckBox, QScrollArea, QPushButton, QSizePolicy
-from PyQt6.QtCore import Qt, QDate, pyqtSignal, QPropertyAnimation, QParallelAnimationGroup
+from PyQt6.QtCore import Qt, QDate, pyqtSignal, QPropertyAnimation, QParallelAnimationGroup, QTimer, QEvent
 from PyQt6.QtGui import QFont
 
 class MemoItemWidget(QWidget):
@@ -10,29 +10,52 @@ class MemoItemWidget(QWidget):
         self.memo = memo
         self.memo_id = memo['id']
         
+        # For long press detection
+        self.press_timer = QTimer(self)
+        self.press_timer.setSingleShot(True)
+        self.press_timer.timeout.connect(self._on_complete_clicked)
+        self.setAttribute(Qt.WidgetAttribute.WA_AcceptTouchEvents, True)
+        
         self.layout = QHBoxLayout(self)
         self.layout.setContentsMargins(15, 15, 15, 15)
         
         self.label = QLabel(memo['text'])
         self.label.setWordWrap(True)
-        self.label.setStyleSheet("font-size: 20px;")
+        self.label.setStyleSheet("font-size: 18px;")
         self.label.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Preferred)
         self.layout.addWidget(self.label, stretch=1)
         
         self.priority_label = QLabel()
         if memo['priority'] == 'HIGH':
             self.priority_label.setText("★ HIGH")
-            self.priority_label.setStyleSheet("color: #ff6b6b; font-weight: bold; font-size: 16px;")
+            self.priority_label.setStyleSheet("color: #ff6b6b; font-weight: bold; font-size: 14px;")
         else:
             self.priority_label.setText("NORMAL")
-            self.priority_label.setStyleSheet("color: #a5b1c2; font-size: 16px;")
+            self.priority_label.setStyleSheet("color: #a5b1c2; font-size: 14px;")
         self.layout.addWidget(self.priority_label)
         
-        self.complete_btn = QPushButton()
-        self.complete_btn.clicked.connect(self._on_complete_clicked)
-        self.layout.addWidget(self.complete_btn)
-        
         self.update_style()
+        
+    def mousePressEvent(self, event):
+        if event.button() == Qt.MouseButton.LeftButton:
+            self.press_timer.start(800) # 800ms long press
+        super().mousePressEvent(event)
+
+    def mouseReleaseEvent(self, event):
+        if event.button() == Qt.MouseButton.LeftButton:
+            if self.press_timer.isActive():
+                self.press_timer.stop()
+        super().mouseReleaseEvent(event)
+
+    def event(self, event):
+        if event.type() == QEvent.Type.TouchBegin:
+            self.press_timer.start(800)
+            return True
+        elif event.type() in (QEvent.Type.TouchEnd, QEvent.Type.TouchCancel):
+            if self.press_timer.isActive():
+                self.press_timer.stop()
+            return True
+        return super().event(event)
         
     def _on_complete_clicked(self):
         is_completed = not self.memo.get('is_completed', False)
@@ -45,37 +68,11 @@ class MemoItemWidget(QWidget):
         if self.memo.get('is_completed', False):
             font.setStrikeOut(True)
             self.label.setFont(font)
-            self.label.setStyleSheet("color: #718093; font-size: 20px;") # Gray out
-            self.complete_btn.setText("✔")
-            self.complete_btn.setStyleSheet("""
-                QPushButton {
-                    font-size: 20px; 
-                    font-weight: bold; 
-                    padding: 8px 12px; 
-                    border-radius: 6px;
-                    color: #2ecc71;
-                    background-color: rgba(46, 204, 113, 0.2);
-                    border: 1px solid rgba(46, 204, 113, 0.4);
-                }
-                QPushButton:hover { background-color: rgba(46, 204, 113, 0.3); }
-            """)
+            self.label.setStyleSheet("color: #718093; font-size: 18px;") # Gray out
         else:
             font.setStrikeOut(False)
             self.label.setFont(font)
-            self.label.setStyleSheet("color: #f5f6fa; font-size: 20px;") # Normal color
-            self.complete_btn.setText("Complete")
-            self.complete_btn.setStyleSheet("""
-                QPushButton {
-                    font-size: 20px; 
-                    font-weight: bold; 
-                    padding: 8px 12px; 
-                    border-radius: 6px;
-                    color: white;
-                    background-color: rgba(255, 255, 255, 0.1);
-                    border: 1px solid rgba(255, 255, 255, 0.2);
-                }
-                QPushButton:hover { background-color: rgba(255, 255, 255, 0.2); }
-            """)
+            self.label.setStyleSheet("color: #f5f6fa; font-size: 18px;") # Normal color
 
 
 class MemoListWidget(QWidget):
@@ -90,7 +87,7 @@ class MemoListWidget(QWidget):
         
         title_layout = QHBoxLayout()
         title_label = QLabel("Today's Priority Tasks")
-        title_label.setStyleSheet("font-size: 24px; font-weight: bold; color: #f5f6fa;")
+        title_label.setStyleSheet("font-size: 22px; font-weight: bold; color: #f5f6fa;")
         title_layout.addWidget(title_label)
         main_layout.addLayout(title_layout)
         

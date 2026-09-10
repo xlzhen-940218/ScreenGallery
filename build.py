@@ -48,9 +48,12 @@ def main():
         os.path.join(".venv", "Scripts", "pyinstaller"),
         "--noconfirm",
         "--windowed",
+        "--onefile",
         "--icon=icon.ico",
         "--name=ScreenGallery",
         "--add-data=assets;assets",
+        "--add-data=播放.svg;.",
+        "--add-data=暂停.svg;.",
         "main.py"
     ]
     

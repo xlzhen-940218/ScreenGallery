@@ -56,10 +56,16 @@ class MainWindow(QMainWindow):
         screen = QApplication.primaryScreen().geometry()
         aspect_ratio = screen.width() / screen.height()
         
-        # Left Panel (Photo Gallery)
+        # Left Panel Container
+        self.left_panel = QWidget()
+        self.left_panel.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
+        left_layout = QVBoxLayout(self.left_panel)
+        left_layout.setContentsMargins(0, 0, 0, 0)
+        left_layout.setSpacing(25)
+        
+        # 1. Top Half (Photo Gallery)
         self.photo_panel = QFrame()
         self.photo_panel.setObjectName("metro_tile")
-        self.photo_panel.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
         photo_layout = QVBoxLayout(self.photo_panel)
         photo_layout.setContentsMargins(0, 0, 0, 0)
         
@@ -67,7 +73,23 @@ class MainWindow(QMainWindow):
         self.photo_widget.photo_changed.connect(self.update_background)
         photo_layout.addWidget(self.photo_widget)
         
-        main_layout.addWidget(self.photo_panel, stretch=1)
+        left_layout.addWidget(self.photo_panel, stretch=1)
+        
+        # 2. Bottom Half (Games)
+        games_layout = QHBoxLayout()
+        games_layout.setSpacing(25)
+        
+        from widgets.snake_widget import SnakeWidget
+        self.snake_widget = SnakeWidget()
+        games_layout.addWidget(self.snake_widget, stretch=1)
+        
+        from widgets.tetris_widget import TetrisWidget
+        self.tetris_widget = TetrisWidget()
+        games_layout.addWidget(self.tetris_widget, stretch=1)
+        
+        left_layout.addLayout(games_layout, stretch=1)
+        
+        main_layout.addWidget(self.left_panel, stretch=1)
         
         # Right Panel (Dashboard)
         self.right_panel = QFrame()
