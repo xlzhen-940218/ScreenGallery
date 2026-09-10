@@ -1,5 +1,7 @@
 # ScreenGallery
 
+![Screenshot](screenshot.jpg)
+
 A modern, Metro-style Smart Digital Photo Frame application. Built with Python and PyQt6.
 
 [中文文档说明请向下滚动 | Scroll down for Chinese documentation]
@@ -59,6 +61,8 @@ You can move this single file to any Windows machine, double click it, and use i
 ---
 
 # ScreenGallery (中文)
+
+![截图](screenshot.jpg)
 
 这是一个现代化 Metro 风格智能数码相框应用程序。使用 Python 和 PyQt6 构建。
 
