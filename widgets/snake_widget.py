@@ -161,21 +161,20 @@ class SnakeWidget(QWidget):
         
         # Calculate cell size based on actual widget dimensions
         # Add some padding
-        padding = 40
+        padding = 20
         w = self.width() - padding * 2
         h = self.height() - padding * 2
         
-        cell_w = w / self.grid_width
-        cell_h = h / self.grid_height
+        cell_size = min(w / self.grid_width, h / self.grid_height)
         
-        offset_x = padding + (w - cell_w * self.grid_width) / 2
-        offset_y = padding + (h - cell_h * self.grid_height) / 2
+        offset_x = padding + (w - cell_size * self.grid_width) / 2
+        offset_y = padding + (h - cell_size * self.grid_height) / 2
         
         # Draw Food
         painter.setBrush(QBrush(QColor(231, 76, 60))) # Red
-        food_rect = (offset_x + self.food.x() * cell_w, 
-                     offset_y + self.food.y() * cell_h, 
-                     cell_w - 1, cell_h - 1)
+        food_rect = (offset_x + self.food.x() * cell_size, 
+                     offset_y + self.food.y() * cell_size, 
+                     cell_size - 1, cell_size - 1)
         painter.drawRoundedRect(int(food_rect[0]), int(food_rect[1]), int(food_rect[2]), int(food_rect[3]), 3, 3)
         
         # Draw Snake
@@ -185,9 +184,9 @@ class SnakeWidget(QWidget):
             else:
                 painter.setBrush(QBrush(QColor(39, 174, 96))) # Body is darker green
                 
-            rect = (offset_x + p.x() * cell_w, 
-                    offset_y + p.y() * cell_h, 
-                    cell_w - 1, cell_h - 1)
+            rect = (offset_x + p.x() * cell_size, 
+                    offset_y + p.y() * cell_size, 
+                    cell_size - 1, cell_size - 1)
             painter.drawRoundedRect(int(rect[0]), int(rect[1]), int(rect[2]), int(rect[3]), 3, 3)
             
         painter.end()
