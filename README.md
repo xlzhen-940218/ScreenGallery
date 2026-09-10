@@ -7,7 +7,7 @@ A modern, Metro-style Smart Digital Photo Frame application. Built with Python a
 [中文文档说明请向下滚动 | Scroll down for Chinese documentation]
 
 ## Features
-- **Dynamic Photo Gallery**: Automatically shuffles and displays images from your chosen folder with a frosted glass backdrop effect.
+- **Dynamic Media Gallery**: Automatically shuffles and displays images and silent MP4 videos from your chosen folder with a frosted glass backdrop effect. Features a hardware-accelerated smooth auto-scrolling engine for vertical portrait photos.
 - **System Dashboard**: Real-time CPU and RAM monitoring gauges.
 - **Priority Tasks (Memos)**: A smart daily checklist. Long-press (800ms) on any task to complete or uncomplete it.
 - **Interactive Calendar**: Highlights dates that have pending tasks.
@@ -67,7 +67,7 @@ You can move this single file to any Windows machine, double click it, and use i
 这是一个现代化 Metro 风格智能数码相框应用程序。使用 Python 和 PyQt6 构建。
 
 ## 特色功能
-- **动态相册展板**：带毛玻璃背景效果的本地相册，自动轮播您选中目录内的图片。
+- **动态相册展板**：带毛玻璃背景效果的本地相册，自动轮播您选中目录内的图片与 MP4 纯净静音视频。内置硬件加速级别的自绘平滑滚动引擎，针对竖向长图提供如丝般顺滑的自动下卷展示体验。
 - **系统状态监控**：实时展示当前电脑的 CPU 与内存占用情况。
 - **今日高优先级任务（备忘录）**：极简的待办事项检查单，支持触屏长按操作（长按 0.8 秒即可完成或取消任务）。
 - **交互式日历**：底部红点清晰指示包含待办任务的日期。

@@ -27,7 +27,9 @@ _TRANSLATIONS = {
         "Close": "关闭",
         "Del": "删除",
         "CPU": "处理器",
-        "RAM": "内存"
+        "RAM": "内存",
+        "Mute": "静音",
+        "Unmute": "取消静音"
     }
 }
 
