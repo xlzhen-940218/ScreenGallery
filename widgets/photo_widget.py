@@ -3,6 +3,7 @@ import random
 from PyQt6.QtWidgets import QWidget, QLabel, QVBoxLayout, QGraphicsOpacityEffect, QPushButton, QFileDialog, QStackedWidget
 from PyQt6.QtGui import QPixmap, QImage, QPalette, QBrush, QPainter, QPainterPath
 from PyQt6.QtCore import Qt, QTimer, QPropertyAnimation, pyqtProperty, pyqtSignal, QEvent
+from utils.i18n import tr
 
 class PhotoWidget(QWidget):
     photo_changed = pyqtSignal(QPixmap)
@@ -35,11 +36,11 @@ class PhotoWidget(QWidget):
         empty_layout = QVBoxLayout(self.empty_page)
         empty_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
         
-        self.empty_label = QLabel("No photos selected or folder is empty.")
+        self.empty_label = QLabel(tr("No photos selected or folder is empty."))
         self.empty_label.setStyleSheet("color: white; font-size: 24px; margin-bottom: 20px;")
         empty_layout.addWidget(self.empty_label, alignment=Qt.AlignmentFlag.AlignCenter)
         
-        self.browse_btn = QPushButton("Browse Folder")
+        self.browse_btn = QPushButton(tr("Browse Folder"))
         self.browse_btn.setFixedSize(200, 50)
         self.browse_btn.setStyleSheet("font-size: 18px;")
         self.browse_btn.clicked.connect(self.select_folder)
@@ -76,7 +77,7 @@ class PhotoWidget(QWidget):
 
     def select_folder(self):
         # Open folder dialog
-        directory = QFileDialog.getExistingDirectory(self, "Select Photo Directory", self.config.get_photo_dir() or os.path.expanduser("~"))
+        directory = QFileDialog.getExistingDirectory(self, tr("Select Photo Directory"), self.config.get_photo_dir() or os.path.expanduser("~"))
         if directory:
             self.config.set_photo_dir(directory)
             self.load_photos()

@@ -3,6 +3,7 @@ import random
 from PyQt6.QtWidgets import QWidget, QLabel, QPushButton, QHBoxLayout, QVBoxLayout, QSizePolicy
 from PyQt6.QtCore import Qt, QTimer, QPoint, QSize
 from PyQt6.QtGui import QPainter, QColor, QPen, QBrush, QIcon
+from utils.i18n import tr
 
 def get_asset_path(filename):
     base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -37,7 +38,7 @@ class TetrisWidget(QWidget):
         self.setObjectName("metro_tile")
         self.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
         
-        self.cols = 10
+        self.cols = 14
         self.rows = 20
         
         self.board = []
@@ -64,7 +65,7 @@ class TetrisWidget(QWidget):
         self.play_btn.setStyleSheet("background-color: transparent; border: none; outline: none;")
         self.play_btn.clicked.connect(self.toggle_play)
         
-        self.score_label = QLabel("Score: 0")
+        self.score_label = QLabel(f"{tr('Score: ')}0")
         self.score_label.setStyleSheet("color: white; font-weight: bold; font-size: 16px;")
         
         top_layout.addWidget(self.play_btn)
@@ -93,7 +94,7 @@ class TetrisWidget(QWidget):
     def reset_game(self):
         self.board = [[0] * self.cols for _ in range(self.rows)]
         self.score = 0
-        self.score_label.setText(f"Score: {self.score}")
+        self.score_label.setText(f"{tr('Score: ')}{self.score}")
         self.spawn_piece()
         
     def rotate_piece(self, piece):
@@ -138,7 +139,7 @@ class TetrisWidget(QWidget):
         self.board = new_board
         if lines_cleared > 0:
             self.score += [0, 40, 100, 300, 1200][lines_cleared]
-            self.score_label.setText(f"Score: {self.score}")
+            self.score_label.setText(f"{tr('Score: ')}{self.score}")
             
     def merge_piece(self):
         for y, row in enumerate(self.current_piece):

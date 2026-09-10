@@ -1,6 +1,7 @@
 from PyQt6.QtWidgets import (QDialog, QVBoxLayout, QHBoxLayout, QLabel, 
                              QLineEdit, QPushButton, QComboBox, QListWidget, QListWidgetItem, QWidget)
 from PyQt6.QtCore import Qt
+from utils.i18n import tr
 
 class MemoDialog(QDialog):
     def __init__(self, date_str, memo_manager, parent=None):
@@ -8,13 +9,13 @@ class MemoDialog(QDialog):
         self.date_str = date_str
         self.memo_manager = memo_manager
         
-        self.setWindowTitle(f"Tasks for {date_str}")
+        self.setWindowTitle(f"{tr('Tasks for ')}{date_str}")
         self.setMinimumSize(450, 350)
         
         self.layout = QVBoxLayout(self)
         
         # Header
-        header = QLabel(f"Manage Tasks for {date_str}")
+        header = QLabel(f"{tr('Manage Tasks for ')}{date_str}")
         header.setStyleSheet("font-size: 18px; font-weight: bold; margin-bottom: 10px;")
         self.layout.addWidget(header)
         
@@ -25,16 +26,16 @@ class MemoDialog(QDialog):
         # New Task Input Area
         input_layout = QHBoxLayout()
         self.text_input = QLineEdit()
-        self.text_input.setPlaceholderText("Enter new task...")
+        self.text_input.setPlaceholderText(tr("Enter new task..."))
         self.text_input.setStyleSheet("font-size: 16px;")
         input_layout.addWidget(self.text_input)
         
         self.priority_combo = QComboBox()
-        self.priority_combo.addItems(["NORMAL", "HIGH"])
+        self.priority_combo.addItems([tr("NORMAL"), tr("HIGH")])
         self.priority_combo.setStyleSheet("font-size: 16px;")
         input_layout.addWidget(self.priority_combo)
         
-        self.add_btn = QPushButton("Add")
+        self.add_btn = QPushButton(tr("Add"))
         self.add_btn.setStyleSheet("font-size: 16px;")
         self.add_btn.clicked.connect(self.add_task)
         input_layout.addWidget(self.add_btn)
@@ -42,7 +43,7 @@ class MemoDialog(QDialog):
         self.layout.addLayout(input_layout)
         
         # Close Button
-        self.close_btn = QPushButton("Close")
+        self.close_btn = QPushButton(tr("Close"))
         self.close_btn.setStyleSheet("font-size: 16px;")
         self.close_btn.clicked.connect(self.accept)
         self.layout.addWidget(self.close_btn)
@@ -71,12 +72,12 @@ class MemoDialog(QDialog):
             
             # Priority
             if memo['priority'] == 'HIGH':
-                pri_lbl = QLabel("★ HIGH")
+                pri_lbl = QLabel(tr("★ HIGH"))
                 pri_lbl.setStyleSheet("color: #ff6b6b; font-weight: bold; font-size: 14px;")
                 layout.addWidget(pri_lbl)
                 
             # Delete button
-            del_btn = QPushButton("Del")
+            del_btn = QPushButton(tr("Del"))
             del_btn.setFixedSize(50, 28)
             del_btn.setStyleSheet("font-size: 14px;")
             # Use lambda with default arg to capture memo id
@@ -90,7 +91,9 @@ class MemoDialog(QDialog):
     def add_task(self):
         text = self.text_input.text().strip()
         if text:
-            priority = self.priority_combo.currentText()
+            display_priority = self.priority_combo.currentText()
+            # Map translated back to internal 'HIGH' or 'NORMAL'
+            priority = 'HIGH' if display_priority == tr("HIGH") else 'NORMAL'
             self.memo_manager.add_memo(self.date_str, text, priority)
             self.text_input.clear()
             self.refresh_list()

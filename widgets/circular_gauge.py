@@ -2,6 +2,7 @@ import sys
 from PyQt6.QtWidgets import QWidget, QApplication, QVBoxLayout, QHBoxLayout
 from PyQt6.QtGui import QPainter, QPainterPath, QColor, QPen, QFont, QFontDatabase
 from PyQt6.QtCore import Qt, QPropertyAnimation, pyqtProperty, pyqtSignal, QRectF
+from utils.i18n import tr
 
 class CircularGauge(QWidget):
     def __init__(self, title="CPU", color=QColor(85, 170, 255), warning_color=QColor(255, 85, 85), parent=None):
@@ -105,10 +106,10 @@ class SystemMonitorWidget(QWidget):
         layout.setContentsMargins(15, 15, 15, 15)
         
         # CPU Gauge - blue/purple theme
-        self.cpu_gauge = CircularGauge("CPU", color=QColor(138, 43, 226)) # BlueViolet
+        self.cpu_gauge = CircularGauge(tr("CPU"), color=QColor(138, 43, 226)) # BlueViolet
         
         # RAM Gauge - green/teal theme
-        self.ram_gauge = CircularGauge("RAM", color=QColor(0, 206, 209)) # DarkTurquoise
+        self.ram_gauge = CircularGauge(tr("RAM"), color=QColor(0, 206, 209)) # DarkTurquoise
         
         layout.addWidget(self.cpu_gauge)
         layout.addWidget(self.ram_gauge)

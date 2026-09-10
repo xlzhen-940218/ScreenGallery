@@ -4,6 +4,7 @@ from collections import deque
 from PyQt6.QtWidgets import QWidget, QLabel, QPushButton, QHBoxLayout, QVBoxLayout, QSizePolicy
 from PyQt6.QtCore import Qt, QTimer, QPoint, QSize
 from PyQt6.QtGui import QPainter, QColor, QPen, QBrush, QIcon
+from utils.i18n import tr
 
 def get_asset_path(filename):
     base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -38,7 +39,7 @@ class SnakeWidget(QWidget):
         self.play_btn.setStyleSheet("background-color: transparent; border: none; outline: none;")
         self.play_btn.clicked.connect(self.toggle_play)
         
-        self.score_label = QLabel("Score: 0")
+        self.score_label = QLabel(f"{tr('Score: ')}0")
         self.score_label.setStyleSheet("color: white; font-weight: bold; font-size: 16px;")
         
         top_layout.addWidget(self.play_btn)
@@ -68,7 +69,7 @@ class SnakeWidget(QWidget):
         self.snake = [QPoint(5, 5), QPoint(4, 5), QPoint(3, 5)]
         self.direction = QPoint(1, 0)
         self.score = 0
-        self.score_label.setText(f"Score: {self.score}")
+        self.score_label.setText(f"{tr('Score: ')}{self.score}")
         self.spawn_food()
         
     def spawn_food(self):
@@ -142,7 +143,7 @@ class SnakeWidget(QWidget):
         
         if new_head == self.food:
             self.score += 10
-            self.score_label.setText(f"Score: {self.score}")
+            self.score_label.setText(f"{tr('Score: ')}{self.score}")
             self.spawn_food()
         else:
             self.snake.pop()

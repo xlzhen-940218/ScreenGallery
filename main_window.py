@@ -11,6 +11,7 @@ from widgets.memo_list_widget import MemoListWidget
 from dialogs.memo_dialog import MemoDialog
 from models.memo_manager import MemoManager
 from utils.config import Config
+from utils.i18n import tr
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -19,7 +20,7 @@ class MainWindow(QMainWindow):
         self.config = Config()
         self.memo_manager = MemoManager()
         
-        self.setWindowTitle("Smart Digital Photo Frame")
+        self.setWindowTitle(tr("Smart Digital Photo Frame"))
         self.setWindowFlags(Qt.WindowType.FramelessWindowHint)
         self.showFullScreen()
         
@@ -94,7 +95,7 @@ class MainWindow(QMainWindow):
         
         left_layout.addWidget(self.games_container, stretch=1)
         
-        main_layout.addWidget(self.left_panel, stretch=7)
+        main_layout.addWidget(self.left_panel, stretch=13)
         
         # Right Panel (Dashboard)
         self.right_panel = QFrame()
@@ -134,7 +135,7 @@ class MainWindow(QMainWindow):
         cal_layout.addWidget(self.calendar)
         right_layout.addWidget(cal_tile, stretch=3)
         
-        main_layout.addWidget(self.right_panel, stretch=3)
+        main_layout.addWidget(self.right_panel, stretch=7)
         
         # System stats update timer
         self.stats_timer = QTimer(self)

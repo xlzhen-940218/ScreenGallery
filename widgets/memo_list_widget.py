@@ -1,6 +1,7 @@
 from PyQt6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QLabel, QCheckBox, QScrollArea, QPushButton, QSizePolicy
 from PyQt6.QtCore import Qt, QDate, pyqtSignal, QPropertyAnimation, QParallelAnimationGroup, QTimer, QEvent
 from PyQt6.QtGui import QFont
+from utils.i18n import tr
 
 class MemoItemWidget(QWidget):
     status_changed = pyqtSignal(int, bool) # memo_id, is_completed
@@ -27,10 +28,10 @@ class MemoItemWidget(QWidget):
         
         self.priority_label = QLabel()
         if memo['priority'] == 'HIGH':
-            self.priority_label.setText("★ HIGH")
+            self.priority_label.setText(tr("★ HIGH"))
             self.priority_label.setStyleSheet("color: #ff6b6b; font-weight: bold; font-size: 14px;")
         else:
-            self.priority_label.setText("NORMAL")
+            self.priority_label.setText(tr("NORMAL"))
             self.priority_label.setStyleSheet("color: #a5b1c2; font-size: 14px;")
         self.layout.addWidget(self.priority_label)
         
@@ -86,7 +87,7 @@ class MemoListWidget(QWidget):
         main_layout.setContentsMargins(15, 15, 15, 15)
         
         title_layout = QHBoxLayout()
-        title_label = QLabel("Today's Priority Tasks")
+        title_label = QLabel(tr("Today's Priority Tasks"))
         title_label.setStyleSheet("font-size: 22px; font-weight: bold; color: #f5f6fa;")
         title_layout.addWidget(title_label)
         main_layout.addLayout(title_layout)
