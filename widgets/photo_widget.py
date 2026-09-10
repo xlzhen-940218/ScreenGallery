@@ -50,6 +50,7 @@ class PhotoWidget(QWidget):
         # Page 2: Photo Display
         self.image_label = QLabel()
         self.image_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.image_label.setMinimumSize(1, 1)
         self.stack.addWidget(self.image_label)
         
         # Effect for fade transition

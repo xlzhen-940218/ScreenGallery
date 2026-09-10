@@ -59,6 +59,7 @@ class MainWindow(QMainWindow):
         # Left Panel Container
         self.left_panel = QWidget()
         self.left_panel.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
+        self.left_panel.setMinimumSize(1, 1)
         left_layout = QVBoxLayout(self.left_panel)
         left_layout.setContentsMargins(0, 0, 0, 0)
         left_layout.setSpacing(25)
@@ -66,6 +67,7 @@ class MainWindow(QMainWindow):
         # 1. Top Half (Photo Gallery)
         self.photo_panel = QFrame()
         self.photo_panel.setObjectName("metro_tile")
+        self.photo_panel.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
         photo_layout = QVBoxLayout(self.photo_panel)
         photo_layout.setContentsMargins(0, 0, 0, 0)
         
@@ -76,7 +78,10 @@ class MainWindow(QMainWindow):
         left_layout.addWidget(self.photo_panel, stretch=1)
         
         # 2. Bottom Half (Games)
-        games_layout = QHBoxLayout()
+        self.games_container = QWidget()
+        self.games_container.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
+        games_layout = QHBoxLayout(self.games_container)
+        games_layout.setContentsMargins(0, 0, 0, 0)
         games_layout.setSpacing(25)
         
         from widgets.snake_widget import SnakeWidget
@@ -87,17 +92,15 @@ class MainWindow(QMainWindow):
         self.tetris_widget = TetrisWidget()
         games_layout.addWidget(self.tetris_widget, stretch=1)
         
-        left_layout.addLayout(games_layout, stretch=1)
+        left_layout.addWidget(self.games_container, stretch=1)
         
-        main_layout.addWidget(self.left_panel, stretch=1)
+        main_layout.addWidget(self.left_panel, stretch=7)
         
         # Right Panel (Dashboard)
         self.right_panel = QFrame()
         self.right_panel.setObjectName("right_panel")
-        self.right_panel.setSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Expanding)
-        # Bounding the right panel so it doesn't get squished on 4:3 but isn't too wide on 16:9
-        self.right_panel.setMinimumWidth(380)
-        self.right_panel.setMaximumWidth(500)
+        self.right_panel.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
+        self.right_panel.setMinimumSize(1, 1)
         
         right_layout = QVBoxLayout(self.right_panel)
         right_layout.setContentsMargins(0, 0, 0, 0)
@@ -131,7 +134,7 @@ class MainWindow(QMainWindow):
         cal_layout.addWidget(self.calendar)
         right_layout.addWidget(cal_tile, stretch=3)
         
-        main_layout.addWidget(self.right_panel, stretch=0)
+        main_layout.addWidget(self.right_panel, stretch=3)
         
         # System stats update timer
         self.stats_timer = QTimer(self)
